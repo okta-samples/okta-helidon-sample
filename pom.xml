@@ -28,6 +28,10 @@
             <artifactId>helidon-microprofile-health</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.helidon.microprofile</groupId>
+            <artifactId>helidon-microprofile-oidc</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.helidon.microprofile.jwt</groupId>
             <artifactId>helidon-microprofile-jwt-auth</artifactId>
         </dependency>
