@@ -28,8 +28,8 @@ okta start
 ## Run the Example
 
 ```bash
-source .okta.env
-./mvnw mn:run
+./mvnw package
+java -jar target/helidon.jar
 ```
 
 Log in at `http://localhost:8080`.
