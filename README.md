@@ -1,176 +1,68 @@
-# Helidon Quickstart MP
+# Okta Helidon Sample
 
-Sample Helidon MP project that includes multiple REST operations.
+<!--
+This example shows you how to use the [Micronaut's OAuth 2.0 support][] to login a user. The login is achieved through the [Authorization Code Flow][] where the user is redirected to the Okta-Hosted login page. After the user authenticates, they are redirected back to the application and a local cookie session is created.-->
 
-## Build and run
+This example shows how to return the user's information from an API using an OAuth 2.0 access token.
 
-With JDK11+
+## Prerequisites
+
+Before running this sample, you will need the following:
+
+* [Java 11+](https://sdkman.io/jdks)
+* [The Okta CLI Tool](https://github.com/okta/okta-cli/#installation)
+* An Okta Developer Account, create one using `okta register`, or configure an existing one with `okta login`
+
+## Get the Code
+
+Grab and configure this project using `okta start helidon`.
+
+You can also clone this repo and run `okta start` in it.
+
 ```bash
-mvn package
-java -jar target/helidon.jar
+git clone https://github.com/okta-samples/okta-helidon-sample.git
+cd okta-helidon-sample
+okta start
 ```
 
-## Exercise the application
+## Run the Example
 
-```
-curl -X GET http://localhost:8080/greet
-{"message":"Hello World!"}
-
-curl -X GET http://localhost:8080/greet/Joe
-{"message":"Hello Joe!"}
-
-curl -X PUT -H "Content-Type: application/json" -d '{"greeting" : "Hola"}' http://localhost:8080/greet/greeting
-
-curl -X GET http://localhost:8080/greet/Jose
-{"message":"Hola Jose!"}
+```bash
+source .okta.env
+./mvnw mn:run
 ```
 
-## Try health and metrics
+Log in at `http://localhost:8080`.
 
-```
-curl -s -X GET http://localhost:8080/health
-{"outcome":"UP",...
-. . .
+## API Access with OAuth 2.0
 
-# Prometheus Format
-curl -s -X GET http://localhost:8080/metrics
-# TYPE base:gc_g1_young_generation_count gauge
-. . .
+You can also retrieve user information from the `/hello` endpoint with an OAuth 2.0 access token.
 
-# JSON Format
-curl -H 'Accept: application/json' -X GET http://localhost:8080/metrics
-{"base":...
-. . .
+First, you'll need to generate an access token.
 
-```
+1. Run `okta apps create spa`. Set `oidcdebugger` as an app name and press **Enter**.
 
-## Build the Docker Image
+2. Use `https://oidcdebugger.com/debug` for the Redirect URI and set the Logout Redirect URI to `https://oidcdebugger.com`.
 
-```
-docker build -t helidon .
-```
+3. Navigate to the [OpenID Connect Debugger website](https://oidcdebugger.com/).
 
-## Start the application with Docker
+ 1. Fill in your client ID
+ 2. Use `https://{yourOktaDomain}/oauth2/default/v1/authorize` for the Authorize URI
+ 3. Select **code** for the response type and **Use PKCE**
+ 4. Click **Send Request** to continue
 
-```
-docker run --rm -p 8080:8080 helidon:latest
-```
+4. Set the access token as a `TOKEN` environment variable in a terminal window.
 
-Exercise the application as described above
+       TOKEN=eyJraWQiOiJYa2pXdjMzTDRBYU1ZSzNGM...
 
-## Deploy the application to Kubernetes
+5. Test the API with [HTTPie](https://httpie.io/cli) and an access token.
 
-```
-kubectl cluster-info                         # Verify which cluster
-kubectl get pods                             # Verify connectivity to cluster
-kubectl create -f app.yaml                   # Deploy application
-kubectl get pods                             # Wait for quickstart pod to be RUNNING
-kubectl get service helidon-quickstart-mp    # Verify deployed service
-```
+       http :8080/hello Authorization:"Bearer $TOKEN"
 
-Note the PORTs. You can now exercise the application as you did before but use the second
-port number (the NodePort) instead of 8080.
+## Learn More
 
-After you’re done, cleanup.
+For more details on how to build an application with Okta and Helidon you can read [Build REST APIs and Native Java Apps with Helidon](https://developer.okta.com/blog/2022/01/06/native-java-helidon).
 
-```
-kubectl delete -f app.yaml
-```
-
-## Build a native image with GraalVM
-
-GraalVM allows you to compile your programs ahead-of-time into a native
- executable. See https://www.graalvm.org/docs/reference-manual/aot-compilation/
- for more information.
-
-You can build a native executable in 2 different ways:
-* With a local installation of GraalVM
-* Using Docker
-
-### Local build
-
-Download Graal VM at https://www.graalvm.org/downloads, the version
- currently supported for Helidon is `20.1.0`.
-
-```
-# Setup the environment
-export GRAALVM_HOME=/path
-# build the native executable
-mvn package -Pnative-image
-```
-
-You can also put the Graal VM `bin` directory in your PATH, or pass
- `-DgraalVMHome=/path` to the Maven command.
-
-See https://github.com/oracle/helidon-build-tools/tree/master/helidon-maven-plugin#goal-native-image
- for more information.
-
-Start the application:
-
-```
-./target/helidon
-```
-
-### Multi-stage Docker build
-
-Build the "native" Docker Image
-
-```
-docker build -t helidon-native -f Dockerfile.native .
-```
-
-Start the application:
-
-```
-docker run --rm -p 8080:8080 helidon-native:latest
-```
-
-
-## Build a Java Runtime Image using jlink
-
-You can build a custom Java Runtime Image (JRI) containing the application jars and the JDK modules
-on which they depend. This image also:
-
-* Enables Class Data Sharing by default to reduce startup time.
-* Contains a customized `start` script to simplify CDS usage and support debug and test modes.
-
-You can build a custom JRI in two different ways:
-* Local
-* Using Docker
-
-
-### Local build
-
-```
-# build the JRI
-mvn package -Pjlink-image
-```
-
-See https://github.com/oracle/helidon-build-tools/tree/master/helidon-maven-plugin#goal-jlink-image
- for more information.
-
-Start the application:
-
-```
-./target/helidon-jri/bin/start
-```
-
-### Multi-stage Docker build
-
-Build the JRI as a Docker Image
-
-```
-docker build -t helidon-jri -f Dockerfile.jlink .
-```
-
-Start the application:
-
-```
-docker run --rm -p 8080:8080 helidon-jri:latest
-```
-
-See the start script help:
-
-```
-docker run --rm helidon-jri:latest --help
-```
+[Helidon's OIDC support]: https://github.com/oracle/helidon/issues/3590
+[OIDC Web Application Setup Instructions]: https://developer.okta.com/docs/guides/implement-grant-type/authcode/main/#set-up-your-app
+[Authorization Code Flow]: https://developer.okta.com/docs/guides/implement-grant-type/authcode/main/
