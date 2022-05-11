@@ -32,7 +32,7 @@ okta start
 java -jar target/helidon.jar
 ```
 
-Log in at `http://localhost:8080`.
+<!-- Log in at `http://localhost:8080`. -->
 
 ## API Access with OAuth 2.0
 
