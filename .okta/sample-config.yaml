@@ -1,0 +1,16 @@
+oauthClient:
+  redirectUris:
+    - http://localhost:8080/oauth/callback/okta
+  postLogoutRedirectUris:
+    - http://localhost:8080/logout
+  applicationType: web
+
+directions: |+2
+  Okta configuration written to .okta.env.
+
+  Add this file to .gitignore!
+  
+  Run this application with:
+
+      source .okta.env
+      mvn mn:run
