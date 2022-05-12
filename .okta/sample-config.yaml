@@ -1,16 +1,14 @@
 oauthClient:
   redirectUris:
-    - http://localhost:8080/oauth/callback/okta
-  postLogoutRedirectUris:
-    - http://localhost:8080/logout
+    - http://localhost:8080/oidc/redirect
   applicationType: web
 
 directions: |+2
-  Okta configuration written to .okta.env.
+  Okta configuration written to src/main/resources/META-INF/microprofile-config.properties.
 
-  Add this file to .gitignore!
-  
+  Add this file to .gitignore or use environment variables. Don't check in your secrets!
+
   Run this application with:
 
-      source .okta.env
-      mvn mn:run
+      mvn package
+      java -jar target/helidon.jar
