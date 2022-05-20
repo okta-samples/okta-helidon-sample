@@ -32,10 +32,6 @@
             <artifactId>helidon-microprofile-oidc</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.helidon.microprofile.jwt</groupId>
-            <artifactId>helidon-microprofile-jwt-auth</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.helidon.media</groupId>
             <artifactId>helidon-media-jsonp</artifactId>
         </dependency>

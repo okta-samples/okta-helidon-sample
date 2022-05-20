@@ -1,0 +1,21 @@
+# as security requires ordered array, we use YAML as it is cleaner to read for this kind of setup
+security:
+  # Using properties to work around the need to reference indexed properties in an array
+  properties:
+    idp-uri: "${CLI_OKTA_ORG_URL}"
+    oauth-uri: "${security.properties.idp-uri}/oauth2/default/v1"
+    client-id: "${CLI_OKTA_CLIENT_ID}"
+    client-secret: "${CLI_OKTA_CLIENT_SECRET}"
+  providers:
+    - oidc:
+        client-id: "${security.properties.client-id}"
+        client-secret: "${security.properties.client-secret}"
+        # when we use .well-known/openid-configuration, we can get all endpoints automatically, but it slows down startup
+        oidc-metadata-well-known: false
+        # must be provided so we know this is an OIDC configuration
+        identity-uri: "${security.properties.idp-uri}"
+        # used to validate JWT (we can also validate using JWK directly without a remote call, but remote call is better
+        # to catch revoked access)
+        introspect-endpoint-uri: "${security.properties.oauth-uri}/introspect"
+        # support both cookie and header (cookie for redirected, header for service to service, or from curl)
+        header-use: "true"

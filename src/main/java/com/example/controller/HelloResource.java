@@ -2,6 +2,7 @@ package com.example.controller;
 
 import io.helidon.security.Principal;
 import io.helidon.security.SecurityContext;
+import io.helidon.security.annotations.Authenticated;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
+@Authenticated
 @Path("/hello")
 public class HelloResource {
 
