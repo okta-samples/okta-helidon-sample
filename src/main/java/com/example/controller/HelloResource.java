@@ -2,15 +2,17 @@ package com.example.controller;
 
 import io.helidon.security.Principal;
 import io.helidon.security.SecurityContext;
+import io.helidon.security.annotations.Authenticated;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import java.util.Optional;
 
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import static jakarta.ws.rs.core.MediaType.TEXT_PLAIN;
 
+@Authenticated
 @Path("/hello")
 public class HelloResource {
 
