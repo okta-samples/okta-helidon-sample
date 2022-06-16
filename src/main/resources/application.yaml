@@ -19,3 +19,4 @@ security:
         introspect-endpoint-uri: "${security.properties.oauth-uri}/introspect"
         # support both cookie and header (cookie for redirected, header for service to service, or from curl)
         header-use: "true"
+        scope-audience: "api://default"
