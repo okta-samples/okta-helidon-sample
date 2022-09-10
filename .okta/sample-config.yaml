@@ -4,7 +4,7 @@ oauthClient:
   applicationType: web
 
 directions: |+2
-  Okta configuration written to src/main/resources/META-INF/microprofile-config.properties.
+  Okta configuration written to src/main/resources/application.yaml.
 
   Add this file to .gitignore or use environment variables. Don't check in your secrets!
 

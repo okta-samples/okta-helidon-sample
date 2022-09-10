@@ -9,7 +9,7 @@ This example shows how to return the user's information from an API using an OAu
 
 Before running this sample, you will need the following:
 
-* [Java 11+](https://sdkman.io/jdks)
+* [Java 17+](https://sdkman.io/jdks)
 * [The Okta CLI Tool](https://github.com/okta/okta-cli/#installation)
 * An Okta Developer Account, create one using `okta register`, or configure an existing one with `okta login`
 
