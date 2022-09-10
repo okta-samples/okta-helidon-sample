@@ -1,0 +1,2 @@
+mp.jwt.verify.issuer: ${CLI_OKTA_ISSUER}
+mp.jwt.verify.publickey.location: ${mp.jwt.verify.issuer}/v1/keys
