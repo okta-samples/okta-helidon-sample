@@ -28,7 +28,7 @@ okta start
 ## Run the Example
 
 ```bash
-./mvnw package
+mvn package
 java -jar target/helidon.jar
 ```
 
