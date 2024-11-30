@@ -32,7 +32,7 @@ Sign into your [Okta Developer Edition account](https://developer.okta.com/login
 ## Run the Example
 
 ```bash
-./mvnw package
+mvn package
 java -jar target/helidon.jar
 ```
 
